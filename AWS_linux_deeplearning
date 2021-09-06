@@ -1,0 +1,20 @@
+df -h # check the location of ssd mounted. Usually is /dev/
+cd /dev/
+sudo mkdir dnn_data
+cd dnn_data
+sudo aws configure # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html 
+sudo aws s3 sync s3://shang-dnn-epi-seq-rna-project/ ./
+sudo chmod 777 ./*
+
+cd
+source activate tensorflow2_p37
+sudo rm /usr/local/cuda
+sudo ln -s /usr/local/cuda-10.2 /usr/local/cuda ## https://docs.aws.amazon.com/dlami/latest/devguide/tutorial-base.html
+pip3 install --upgrade tensorflow==2.x.x 
+pip3 install tensorflow_addon==0.11.2
+pip3 install alibi
+
+jupyter notebook  --generate-config
+jupyter notebook password
+jupyter-lab --ip 0.0.0.0 --no-browser --allow-root
+
