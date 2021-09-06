@@ -1,4 +1,4 @@
-df -h # check the location of ssd mounted. Usually is /dev/
+df -h # check the location of ssd mounted. Usually /dev/
 cd /dev/
 sudo mkdir dnn_data
 cd dnn_data
