@@ -13,7 +13,7 @@ sudo ln -s /usr/local/cuda-10.2 /usr/local/cuda ## https://docs.aws.amazon.com/d
 cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
 
 pip3 install --upgrade tensorflow==2.x.x 
-pip3 install tensorflow_addon==0.11.2
+pip3 install tensorflow_addons==0.11.2
 pip3 install alibi
 
 jupyter notebook  --generate-config
