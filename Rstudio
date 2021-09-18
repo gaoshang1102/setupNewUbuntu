@@ -1,0 +1,24 @@
+sudo apt-get update -y
+sudo apt install libssl-dev libcurl4-openssl-dev libxml2-dev
+sudo apt remove r-base* --purge
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
+sudo apt update
+sudo apt install r-base
+sudo apt-get install gdebi-core
+sudo su # or add sudo before all command below
+wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.4.1717-amd64.deb # Check the lastest rstudio version
+sudo gdebi rstudio-server-1.4.1717-amd64.deb
+rm rstudio-server-1.4.1717-amd64.deb
+adduser SOMENAME
+
+vi /etc/rstudio/rserver.conf
+
+www-port=80
+www-address=xxx.xx.xx.x # Change the ip to aws instance ip
+auth-required-user-group=SOMENAME
+
+rstudio-server restart
+
+
+
