@@ -1,5 +1,5 @@
 sudo apt-get update -y
-sudo apt install libssl-dev libcurl4-openssl-dev libxml2-dev
+sudo apt install libssl-dev libcurl4-openssl-dev libxml2-dev libudunits2-dev libgdal-dev
 sudo apt remove r-base* --purge
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran40/'
@@ -29,7 +29,21 @@ sudo apt install r-cran-rstan
 sudo apt-get install libhdf5-dev
 sudo apt install libboost-all-dev
 
+# upgrade python3 to python3.8
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get update
+sudo apt install python3
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
+sudo update-alternatives --config python3 
+## Select 2 and press enter
+python3 -V
+sudo apt-get -y install python3-pip
+sudo apt-get -y install python-pip
+pip3 install --upgrade setuptools
+
 # In rstudio
+install.packages("devtools")
 library(devtools)
 ## Bioconductor
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -37,18 +51,39 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install()
 BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
 
-# BITFAM
-install.packages("devtools")
-devtools::install_github("jaleesr/BITFAM")
-
 # Seurat
 install.packages("Seurat")
+
+# BITFAM
+devtools::install_github("jaleesr/BITFAM")
 
 # RNA velocity
 install.packages("hdf5r")
 BiocManager::install("pcaMethods")
 install_github("velocyto-team/velocyto.R")
 
-# upgrade python3 
-sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt install python3
+# scVelo
+sudo pip install -U scvelo
+
+# PAGA
+sudo pip install scanpy
+
+# Palantir (Can't install)
+sudo pip install PhenoGraph
+sudo pip install cmake
+sudo pip install palantir
+
+# Monocle
+BiocManager::install(c('BiocGenerics', 'DelayedArray', 'DelayedMatrixStats',
+                       'limma', 'S4Vectors', 'SingleCellExperiment',
+                       'SummarizedExperiment', 'batchelor', 'Matrix.utils'))
+devtools::install_github('cole-trapnell-lab/leidenbase')
+devtools::install_github('cole-trapnell-lab/monocle3')
+
+# scArches
+
+
+# singler
+
+
+
