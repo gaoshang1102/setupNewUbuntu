@@ -15,7 +15,7 @@ adduser SOMENAME
 vi /etc/rstudio/rserver.conf
 
 www-port=80
-www-address=xxx.xx.xx.x # Change the ip to aws instance ip
+www-address=ec2-54-167-45-52.compute-1.amazonaws.com # Change the ip to aws instance Public IPv4 DNS
 auth-required-user-group=SOMENAME
 
 rstudio-server restart
