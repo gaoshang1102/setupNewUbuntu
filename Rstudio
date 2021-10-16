@@ -63,7 +63,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install()
 BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
 BiocManager::install("clusterProfiler")
-BiocManager::install("")
+BiocManager::install("org.Mm.eg.db")
 
 # Seurat
 install.packages("Seurat")
