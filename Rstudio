@@ -81,7 +81,7 @@ devtools::install_github('cole-trapnell-lab/leidenbase')
 devtools::install_github('cole-trapnell-lab/monocle3')
 
 # scArches
-
+sudo pip install --ignore-installed -U scarches
 
 # singler
 
