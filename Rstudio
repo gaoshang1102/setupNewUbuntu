@@ -27,10 +27,22 @@ sudo apt update
 sudo apt-get install libnode-dev
 sudo apt install r-cran-rstan
 
-## In rstudio
+# In rstudio
+
+## Bioconductor
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install()
 BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
 
+# BITFAM
 install.packages("devtools")
+devtools::install_github("jaleesr/BITFAM")
+
+# Seurat
+install.packages("Seurat")
+
+# RNA velocity
+
+
+
