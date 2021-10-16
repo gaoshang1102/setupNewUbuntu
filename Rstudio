@@ -27,3 +27,10 @@ sudo apt update
 sudo apt-get install libnode-dev
 sudo apt install r-cran-rstan
 
+## In rstudio
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
+BiocManager::install(c("GenomicFeatures", "AnnotationDbi"))
+
+install.packages("devtools")
