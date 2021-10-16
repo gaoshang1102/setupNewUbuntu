@@ -20,5 +20,10 @@ auth-required-user-group=SOMENAME
 
 rstudio-server restart
 
-
+sudo add-apt-repository ppa:marutter/rrutter4.0
+sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
+sudo add-apt-repository ppa:cran/v8
+sudo apt update
+sudo apt-get install libnode-dev
+sudo apt install r-cran-rstan
 
