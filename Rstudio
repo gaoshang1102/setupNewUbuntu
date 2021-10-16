@@ -26,9 +26,11 @@ sudo add-apt-repository ppa:cran/v8
 sudo apt update
 sudo apt-get install libnode-dev
 sudo apt install r-cran-rstan
+sudo apt-get install libhdf5-dev
+sudo apt install libboost-all-dev
 
 # In rstudio
-
+library(devtools)
 ## Bioconductor
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
@@ -43,6 +45,10 @@ devtools::install_github("jaleesr/BITFAM")
 install.packages("Seurat")
 
 # RNA velocity
+install.packages("hdf5r")
+BiocManager::install("pcaMethods")
+install_github("velocyto-team/velocyto.R")
 
-
-
+# upgrade python3 
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt install python3.8
