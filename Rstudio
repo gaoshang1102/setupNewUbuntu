@@ -20,6 +20,12 @@ auth-required-user-group=SOMENAME
 
 rstudio-server restart
 
+# AWS client
+
+sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo unzip awscliv2.zip
+sudo ./aws/install
+
 sudo add-apt-repository ppa:marutter/rrutter4.0
 sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
 sudo add-apt-repository ppa:cran/v8
@@ -33,6 +39,7 @@ sudo apt install libboost-all-dev
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt-get update
 sudo apt install python3
+sudo apt-get install python3.8-dev
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
 sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 2
 sudo update-alternatives --config python3 
@@ -40,7 +47,12 @@ sudo update-alternatives --config python3
 python3 -V
 sudo apt-get -y install python3-pip
 sudo apt-get -y install python-pip
-pip3 install --upgrade setuptools
+sudo pip install --upgrade setuptools
+
+sudo pip install jupyterlab
+jupyter notebook  --generate-config
+jupyter notebook password
+jupyter-lab --ip 0.0.0.0 --no-browser --allow-root
 
 # In rstudio
 install.packages("devtools")
