@@ -99,5 +99,14 @@ sudo pip install --ignore-installed -U scarches
 
 # singler
 
+# Mount S3 bucket to EC2 via s3fs
+# https://github.com/s3fs-fuse/s3fs-fuse
+sudo apt install s3fs
+cat ${HOME}/.passwd-s3fs
+echo ACCESS_KEY_ID:SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs
+chmod 600 ${HOME}/.passwd-s3fs
+mkdir mount_point
+s3fs scrna-seq-database(bucket name) /path/to/mount_point -o passwd_file=${HOME}/.passwd-s3fs -o umask=0007,uid=1000 (uid is checked in /etc/passwd. 3rd column)
+
 
 
