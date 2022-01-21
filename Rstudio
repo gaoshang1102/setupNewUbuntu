@@ -95,6 +95,7 @@ install_github("velocyto-team/velocyto.R")
 sudo pip install -U scvelo
 
 # PAGA
+sudo apt-get install llvm-10 lldb-10 llvm-10-dev libllvm10 llvm-10-runtime
 sudo pip install scanpy
 
 # Palantir (Can't install)
