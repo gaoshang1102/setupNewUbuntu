@@ -63,6 +63,7 @@ python3 -V
 sudo apt-get -y install python3-pip
 sudo apt-get -y install python-pip
 sudo pip install --upgrade setuptools
+sudo pip3 install --upgrade setuptools
 
 sudo pip install jupyterlab
 jupyter notebook  --generate-config
@@ -92,10 +93,16 @@ BiocManager::install("pcaMethods")
 install_github("velocyto-team/velocyto.R")
 
 # scVelo
-sudo pip install -U scvelo
+sudo apt-get install llvm-10 lldb-10 llvm-10-dev libllvm10 llvm-10-runtime
+sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-6.0 6
+sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-10 10
+sudo update-alternatives --config llvm-config
+pip3 install llvmlite
+pip3 install packaging numpy
+pip3 install -U scvelo
 
 # PAGA
-sudo apt-get install llvm-10 lldb-10 llvm-10-dev libllvm10 llvm-10-runtime
+conda install -c anaconda hdf5=1.12.1
 sudo pip install scanpy
 
 # Palantir (Can't install)
