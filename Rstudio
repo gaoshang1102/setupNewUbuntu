@@ -20,6 +20,21 @@ auth-required-user-group=SOMENAME
 
 rstudio-server restart
 
+## Disk mount
+fdisk -l
+fdisk /dev/XXXXXX
+n
+p
+1
+default
+default
+w
+
+sudo mkfs.ext4 /dev/XXXXXX
+sudo mount /dev/XXXXXX /mountpointXXX
+sudo vi /etc/fstab
+/dev/XXXXXX	/mountpointXXX	ext4	defaults     0   0
+
 # AWS client
 
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
