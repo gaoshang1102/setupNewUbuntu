@@ -87,6 +87,9 @@ jupyter notebook  --generate-config
 jupyter notebook password
 jupyter-lab --ip 0.0.0.0 --no-browser --allow-root
 
+# install kallisto follow https://pachterlab.github.io/kallisto/source
+# build mouse kallisto index https://github.com/linnarsson-lab/loompy/tree/master/kallisto
+
 # In rstudio
 install.packages("devtools")
 library(devtools)
@@ -146,6 +149,7 @@ cat ${HOME}/.passwd-s3fs
 echo ACCESS_KEY_ID:SECRET_ACCESS_KEY > ${HOME}/.passwd-s3fs
 chmod 600 ${HOME}/.passwd-s3fs
 mkdir mount_point
+# mount at / file
 s3fs scrna-seq-database(bucket name) /path/to/mount_point -o passwd_file=${HOME}/.passwd-s3fs -o umask=0007,uid=1000 (uid is checked in /etc/passwd. 3rd column)
 
 
