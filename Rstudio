@@ -15,7 +15,7 @@ adduser SOMENAME
 vi /etc/rstudio/rserver.conf
 
 www-port=80
-www-address=ec2-54-167-45-52.compute-1.amazonaws.com # Change the ip to aws instance Public IPv4 DNS
+www-address=ec2-52-204-236-200.compute-1.amazonaws.com # Change the ip to aws instance Public IPv4 DNS
 auth-required-user-group=SOMENAME
 
 rstudio-server restart
@@ -40,6 +40,7 @@ sudo vi /etc/fstab
 sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 sudo unzip awscliv2.zip
 sudo ./aws/install
+rm awscliv2.zip
 
 sudo add-apt-repository ppa:marutter/rrutter4.0
 sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
