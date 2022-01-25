@@ -41,6 +41,7 @@ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv
 sudo unzip awscliv2.zip
 sudo ./aws/install
 rm awscliv2.zip
+aws s3 cp /tmp/foo/ s3://bucket/ --recursive
 
 sudo add-apt-repository ppa:marutter/rrutter4.0
 sudo add-apt-repository ppa:c2d4u.team/c2d4u4.0+
