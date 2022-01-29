@@ -2,3 +2,8 @@
 velocyto run10x -m /home/ubuntu/rmsk/mm10_rmsk.gtf ./ /home/ubuntu/cellranger/reference/mouse_mm10/refdata-gex-mm10-2020-A/genes/genes.gtf
 
 cellranger count --id=wt_ctl_PB --fastqs=/home/ubuntu/scRNA_seq/neutrophil/ --sample=Wctl_PB2 --transcriptome=/home/ubuntu/cellranger/reference/mouse_mm10/refdata-gex-mm10-2020-A/
+
+
+
+
+
