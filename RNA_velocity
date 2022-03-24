@@ -4,6 +4,20 @@ velocyto run10x -m /home/ubuntu/rmsk/mm10_rmsk.gtf ./ /home/ubuntu/cellranger/re
 cellranger count --id=wt_ctl_PB --fastqs=/home/ubuntu/scRNA_seq/neutrophil/ --sample=Wctl_PB2 --transcriptome=/home/ubuntu/cellranger/reference/mouse_mm10/refdata-gex-mm10-2020-A/
 
 
+# Droplet based tech
+# installation
+# https://dropest.readthedocs.io/en/latest/droptag.html
 
+./droptag -c ./configs/indrop_v1_2.xml ~/mydata/SRR5945694_2.fastq.gz ~/mydata/SRR5945694_1.fastq.gz
+
+STAR --genomeDir ~/cellranger/refdata-cellranger-mm10-1.2.0/star/ \
+       --readFilesIn SRR5945695_1.fastq.gz.tagged.1.fastq.gz,SRR5945695_1.fastq.gz.tagged.2.fastq.gz,SRR5945695_1.fastq.gz.tagged.3.fastq.gz,SRR5945695_1.fastq.gz.tagged.4.fastq.gz,SRR5945695_1.fastq.gz.tagged.5.fastq.gz,SRR5945695_1.fastq.gz.tagged.6.fastq.gz,SRR5945695_1.fastq.gz.tagged.7.fastq.gz,SRR5945695_1.fastq.gz.tagged.8.fastq.gz \
+       --outSAMmultNmax 1 \
+       --runThreadN 6 \
+       --readNameSeparator space \
+       --outSAMunmapped Within \
+       --outSAMtype BAM SortedByCoordinate \
+       --outFileNamePrefix SRR5945695_1 \
+       --readFilesCommand gunzip -c
 
 
