@@ -1,3 +1,10 @@
+# from sra file to fastq with fastq-dump
+wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.0.0/sratoolkit.3.0.0-ubuntu64.tar.gz
+tar -xvf sratoolkit.3.0.0-ubuntu64.tar.gz
+export PATH=/home/ubuntu/sratoolkit.3.0.0-ubuntu64:$PATH
+vim .bashrc
+source ~/.profile
+fastq-dump --split-files --gzip SRR#######
 
 velocyto run10x -m /home/ubuntu/rmsk/mm10_rmsk.gtf ./ /home/ubuntu/cellranger/reference/mouse_mm10/refdata-gex-mm10-2020-A/genes/genes.gtf
 
