@@ -1,0 +1,14 @@
+# fastp 
+
+for fn in `ls`
+do
+fastp -i $fn -o trimmed_$fn
+done
+
+# bowtie2 
+
+bowtie2 -p 20 -x ~/reference+bowtie2/hg38/GRCh38_noalt_as/GRCh38_noalt_as \
+        -U trimmed_xxx.fastq.gz \
+        -S trimmed_xxx.sam && \
+samtools view -bS trimmed_xxx.sam > trimmed_xxx.bam && \
+samtools sort  trimmed_xxx.bam -o trimmed_xxx.sorted.bam
