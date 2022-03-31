@@ -1,14 +1,16 @@
 # fastp 
 
-for fn in `ls`
-do
+for fn in `ls` do
 fastp -i $fn -o trimmed_$fn
 done
+
+for i in `ls`; do fastp -i $fn -o trimmed_$fn; done
 
 # bowtie2 
 
 mkdir sorted_bam 
 FNAME="xxx" && \
+do fastp -i ${FNAME}.fastq.gz -o trimmed_${FNAME}.fastq.gz && \
 bowtie2 -p 20 -x ~/reference+bowtie2/hg38/GRCh38_noalt_as/GRCh38_noalt_as \
         -U trimmed_${FNAME}.fastq.gz \
         -S trimmed_${FNAME}.sam && \
