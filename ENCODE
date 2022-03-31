@@ -11,7 +11,7 @@ for i in `ls`; do fastp -i $fn -o trimmed_$fn; done
 mkdir sorted_bam 
 FNAME="xxx" && \
 fastp -i ${FNAME}.fastq.gz -o trimmed_${FNAME}.fastq.gz && \
-bowtie2 -p 20 -x ~/reference+bowtie2/hg38/GRCh38_noalt_as/GRCh38_noalt_as -U trimmed_${FNAME}.fastq.gz -S trimmed_${FNAME}.sam && \
+bowtie2 -p 20 -x ~/reference_bowtie2/hg38/GRCh38_noalt_as/GRCh38_noalt_as -U trimmed_${FNAME}.fastq.gz -S trimmed_${FNAME}.sam && \
 samtools view -@ 20 -bS trimmed_${FNAME}.sam > trimmed_${FNAME}.bam && \
 samtools sort -@ 20 trimmed_${FNAME}.bam -o trimmed_${FNAME}.sorted.bam && \
 mv *sorted.bam ./sorted_bam/
