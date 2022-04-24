@@ -8,6 +8,18 @@ rm *
 cd ../
 done
 
+
+for i in `awk '{print $1}' df_meta_adult_fragment.bed`
+do
+cd ${i}
+bedtools sort -i *_fragments.bed > sorted_fragments.bed && sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed && \
+mongoimport --db test --collection ${i} --type tsv --file sorted_fragments.bed --fields chr,start,end,barcode,counts && \
+Rscript ~/ref_atac_coverage.R $i && \
+aws s3 cp ./coverage.rds s3://scrna-seq-database/scATAC-seq/${i}/ && \
+rm * && \
+cd ../
+done
+
 # generate chr sorted fragments file
 cd ${i}
 bedtools sort -i *_fragments.bed > sorted_fragments.bed
