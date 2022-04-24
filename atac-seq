@@ -1,3 +1,63 @@
+# gzip fragment gz file
+for i in `awk '{print $1}' df_meta_fragment.bed`
+do
+cd $i
+gzip -d *.gz 
+aws s3 cp ./ s3://scrna-seq-database/scATAC-seq/${i} --recursive
+rm *
+cd ../
+done
+
+# generate chr sorted fragments file
+cd ${i}
+bedtools sort -i *_fragments.bed > sorted_fragments.bed
+
+# make mongodb database from fragment file
+sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed # add column names to tsv file
+
+# build mongodb datasets
+mongoimport --db test --collection adipose_omentum_SM-ADYHB_1 (${i}) --type tsv --file sorted_fragments.bed --fields chr,start,end,barcode,counts
+
+# Run rscripts
+Rscript ref_atac_coverage.R $i
+# index one of the column
+m <- mongo(collection = args[1], 
+           url= "mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb")
+m$index(add = '{"barcode" : 1}')
+
+# query rows by cell barcode
+getCoverage <- function(barcode_i){
+  cell_tmp <- m$find(sprintf('{"barcode":"%s"}', barcode_i))
+  cell_tmp <- cell_tmp[cell_tmp$chr %in% chrom, ]
+  coverage <- bedTools.coverage(bed1 = chr1_annotation, bed2=cell_tmp)$V7
+  return(coverage)
+}
+
+n.cores <- parallel::detectCores() - 6
+my.cluster <- parallel::makeCluster(
+  n.cores, 
+  type = "PSOCK"
+)
+doParallel::registerDoParallel(cl = my.cluster)
+length(barcodes)
+coverage_list <- foreach(i = 1:50,  .combine = 'append') %dopar% {
+  list(getCoverage(barcodes[i]))
+}
+
+parallel::stopCluster(cl = my.cluster)
+
+saveRDS(coverage_list, file = "coverage.rds")
+
+# upload coverage_list to s3
+aws s3 cp ./coverage.rds s3://scrna-seq-database/scATAC-seq/${i}/
+rm * 
+cd ../
+
+# liftover from hg19 to hg38
+tmp <- makeGRangesFromDataFrame(dat, T)
+chainObject <- import.chain("~/hg19ToHg38.over.chain")
+tmp <- liftOver(tmp, chain = chainObject)
+
 bedTools.sort<-function(functionstring="~/bedtools2/bin/sortBed",bed1,opt.string="")
 {
   #create temp files
