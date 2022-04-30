@@ -29,6 +29,7 @@ sudo service mongod restart && \
 aws s3 cp s3://scrna-seq-database/scATAC-seq/${i}/cell_id_metadata.txt ./ && \
 aws s3 cp s3://scrna-seq-database/scATAC-seq/${i}/metadata.txt ./ && \
 python3 ~/scATAC_seq/ref_coverage.py $i && \
+aws s3 cp ./coverage.npz s3://scrna-seq-database/scATAC-seq/${i}/ && \
 rm * && \
 cd ../
 done
