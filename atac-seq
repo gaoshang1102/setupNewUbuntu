@@ -15,12 +15,18 @@ do
 cd ${i}
 sudo service mongod restart && \
 aws s3 cp s3://scrna-seq-database/scATAC-seq/${i}/ ./ --recursive && \
-sort -k 1,1 -k2,2n -S 50% --parallel=16 `ls | grep "_fragment"` > sorted_fragments.bed && sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed && \
+sort -k 1,1 -k2,2n -S 75% --parallel=16 `ls | grep "_fragment"` > sorted_fragments.bed && sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed && \
 sed -i '/^#/d' sorted_fragments.bed && \
 mongoimport --db test --collection ${i} --type tsv --file sorted_fragments.bed --fields chr,start,end,barcode,counts && \
 rm * && \
 cd ../
 done
+
+#sort -k 4 -S 75% --parallel=16 sorted_fragments.bed > sorted_bybarcodes_fragments.bed
+#awk '{print $4}' sorted_bybarcodes_fragments.bed | uniq -c > cell_id_metadata.txt  
+
+python3 ~/scATAC_atlas/ref_coverage_v2.py pbmc_10x
+
 
 ## make coverage
 for i in `awk '{print $1}' df_meta_adult_fragment.bed`
@@ -29,7 +35,7 @@ cd ${i}
 sudo service mongod restart && \
 aws s3 cp s3://scrna-seq-database/scATAC-seq/${i}/cell_id_metadata.txt ./ && \
 aws s3 cp s3://scrna-seq-database/scATAC-seq/${i}/metadata.txt ./ && \
-python3 ~/scATAC_seq/ref_coverage.py $i && \
+python3 ~/scATAC_atlas/ref_coverage.py $i && \
 aws s3 cp ./coverage.npz s3://scrna-seq-database/scATAC-seq/${i}/ && \
 rm * && \
 cd ../
