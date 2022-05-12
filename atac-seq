@@ -67,6 +67,8 @@ sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed # add c
 mongoimport --db test --collection adipose_omentum_SM-ADYHB_1 (${i}) --type tsv --file sorted_fragments.bed --fields chr,start,end,barcode,counts
 
 snaptools snap-pre --input-file=sorted_bybarcodes_fragments.bed --output-snap=pbmc_10k.snap --genome-name=hg38 --genome-size=hg38.chrom.sizes --min-mapq=10 --min-flen=0 --max-flen=1000 --keep-chrm=TRUE --keep-single=FALSE -keep-secondary=False --overwrite=True --max-num=1000000 --min-cov=500 --verbose=True
+snaptools snap-add-bmat --snap-file=pbmc_10k.snap --bin-size-list 5000 --verbose=True
+snaptools snap-add-pmat --snap-file=pbmc_10k.snap --peak-file=pbmc_granulocyte_sorted_10k_atac_peaks.bed --verbose=True
 
 library(SnapATAC)
 library(GenomicRanges)
@@ -78,7 +80,6 @@ barcodes <- read.table("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/"
 pbmc_10k <- pbmc_10k[which(pbmc_10k@barcode %in% barcodes),]
 pbmc_10k <- addBmatToSnap(pbmc_10k, bin.size=5000, num.cores=26)
 pbmc_10k = makeBinary(pbmc_10k, mat="bmat")
-lung[[i]] <- tmp
 
 
 
