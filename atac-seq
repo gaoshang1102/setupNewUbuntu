@@ -22,7 +22,7 @@ rm * && \
 cd ../
 done
 
-#sort -k 4 -S 75% --parallel=16 sorted_fragments.bed > sorted_bybarcodes_fragments.bed
+#sort -k4,4 -S 75% --parallel=16 sorted_fragments.bed > sorted_bybarcodes_fragments.bed
 #awk '{print $4}' sorted_bybarcodes_fragments.bed | uniq -c > cell_id_metadata.txt  
 
 python3 ~/scATAC_atlas/ref_coverage_v2.py pbmc_10x
@@ -65,6 +65,24 @@ sed -i 1i'chr\tstart\tend\tbarcode\tcounts\tstrand' sorted_fragments.bed # add c
 
 # build mongodb datasets
 mongoimport --db test --collection adipose_omentum_SM-ADYHB_1 (${i}) --type tsv --file sorted_fragments.bed --fields chr,start,end,barcode,counts
+
+snaptools snap-pre --input-file=sorted_bybarcodes_fragments.bed --output-snap=pbmc_10k.snap --genome-name=hg38 --genome-size=hg38.chrom.sizes --min-mapq=10 --min-flen=0 --max-flen=1000 --keep-chrm=TRUE --keep-single=FALSE -keep-secondary=False --overwrite=True --max-num=1000000 --min-cov=500 --verbose=True
+
+library(SnapATAC)
+library(GenomicRanges)
+
+pbmc_10k <- createSnap("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/pbmc_10k.snap", 
+                    sample = "lung1", num.cores = 26)
+barcodes <- read.table("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/",
+                           stringsAsFactors = F)$V1
+pbmc_10k <- pbmc_10k[which(pbmc_10k@barcode %in% barcodes),]
+pbmc_10k <- addBmatToSnap(pbmc_10k, bin.size=5000, num.cores=26)
+pbmc_10k = makeBinary(pbmc_10k, mat="bmat")
+lung[[i]] <- tmp
+
+
+
+
 
 # Run rscripts
 Rscript ref_atac_coverage.R $i
