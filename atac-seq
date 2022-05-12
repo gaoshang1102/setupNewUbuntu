@@ -73,13 +73,41 @@ snaptools snap-add-pmat --snap-file=pbmc_10k.snap --peak-file=pbmc_granulocyte_s
 library(SnapATAC)
 library(GenomicRanges)
 
+chrom <- paste0("chr", c(1:22, "X", "Y"))
 pbmc_10k <- createSnap("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/pbmc_10k.snap", 
                     sample = "lung1", num.cores = 26)
-barcodes <- read.table("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/",
+barcodes <- read.table("/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/cell_id_metadata.txt",
                            stringsAsFactors = F)$V1
 pbmc_10k <- pbmc_10k[which(pbmc_10k@barcode %in% barcodes),]
 pbmc_10k <- addBmatToSnap(pbmc_10k, bin.size=5000, num.cores=26)
-pbmc_10k = makeBinary(pbmc_10k, mat="bmat")
+pbmc_10k <- makeBinary(pbmc_10k, mat="bmat")
+
+peaks <- read.table("~/scATAC_atlas/10x_genomics_same_cells/pbmc/pbmc_granulocyte_sorted_10k_atac_peaks.bed",
+                    stringsAsFactors = F)
+peaks <- peaks[peaks$V1 %in% chrom, ]
+write.table(peaks, "~/scATAC_atlas/10x_genomics_same_cells/pbmc/peaks.bed", row.names = F, col.names = F,sep = "\t", quote = F)
+
+idy = queryHits(findOverlaps(pbmc_10k@feature, black_list.gr))
+if(length(idy) > 0){pbmc_10k = pbmc_10k[,-idy, mat="bmat"]}
+chr.exclude = seqlevels(pbmc_10k@feature)[grep("random|chrM", seqlevels(pbmc_10k@feature))]
+idy = grep(paste(chr.exclude, collapse="|"), pbmc_10k@feature)
+if(length(idy) > 0){pbmc_10k = pbmc_10k[,-idy, mat="bmat"]}
+
+bin.cov <- Matrix::colSums(pbmc_10k@bmat)
+bin.cutoff <- 11764-118
+bin.mincutoff <- 118
+idy <- which(bin.cov <= bin.cutoff & bin.cov >= bin.mincutoff)
+pbmc_10k <- pbmc_10k[, idy, mat="bmat"]
+
+bins.df = as.data.frame(pbmc_10k@feature)[,1:3]
+bins.df <- bins.df[bins.df$seqnames %in% chrom, ]
+write.table(bins.df,file = "scATAC_atlas/10x_genomics_same_cells/pbmc/bins.bed",append=FALSE,
+            quote= FALSE,sep="\t", eol = "\n", na = "NA", dec = ".", 
+            row.names = FALSE, col.names = FALSE, qmethod = c("escape", "double"),
+            fileEncoding = "")
+
+Matrix::writeMM(obj = pbmc_10k@bmat, file = "/home/ubuntu/scATAC_atlas/10x_genomics_same_cells/pbmc/pbmc_10k_bmat.mtx")
+
 
 
 
