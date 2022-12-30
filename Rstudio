@@ -10,13 +10,14 @@ sudo su # or add sudo before all command below
 wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.4.1717-amd64.deb # Check the lastest rstudio version
 sudo gdebi rstudio-server-1.4.1717-amd64.deb
 rm rstudio-server-1.4.1717-amd64.deb
-adduser SOMENAME
 
-vi /etc/rstudio/rserver.conf
+sudo vi /etc/rstudio/rserver.conf
 
 www-port=80
 www-address=ec2-52-204-236-200.compute-1.amazonaws.com # Change the ip to aws instance Public IPv4 DNS
-auth-required-user-group=SOMENAME
+auth-required-user-group=ubuntu
+
+sudo passwd
 
 rstudio-server restart
 
