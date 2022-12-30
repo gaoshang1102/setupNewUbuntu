@@ -6,8 +6,8 @@ sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-
 #sudo apt update
 sudo apt install r-base
 sudo apt-get install gdebi-core
-wget https://download2.rstudio.org/server/xenial/amd64/rstudio-server-1.4.1106-amd64.deb
-sudo gdebi rstudio-server-1.4.1106-amd64.deb
+wget https://download2.rstudio.org/server/xenial/amd64/rstudio-server-1.4.1717-amd64.deb
+sudo gdebi rstudio-server-1.4.1717-amd64.deb
 rm rstudio-server-1.4.1717-amd64.deb
 
 sudo vi /etc/rstudio/rserver.conf
