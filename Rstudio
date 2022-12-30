@@ -21,14 +21,13 @@ sudo passwd
 rstudio-server restart
 
 ## Disk mount
-fdisk -l
-fdisk /dev/XXXXXX
-n
-p
-1
-default
-default
-w
+lsblk
+sudo file -s /dev/nvme1n1
+sudo mkfs -t xfs /dev/nvme1n1
+sudo mkdir /data
+sudo mount /dev/nvme1n1 /data
+sudo chmod 777 /data
+df -h
 
 sudo mkfs.ext4 /dev/XXXXXX
 sudo mount /dev/XXXXXX /mountpointXXX
